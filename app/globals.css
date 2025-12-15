@@ -1,0 +1,598 @@
+/**
+ * Путь: /app/globals.css
+ * Название: Геологический профессиональный стиль
+ * Тематика: Инженерная геология, стратиграфия, грунты
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   ГЕОЛОГИЧЕСКАЯ ПАЛИТРА
+   ============================================ */
+
+:root {
+  /* Основные цвета грунтов */
+  --soil-light: #F5F4F2;        /* светлый осадочный слой */
+  --soil-medium: #E8E5E0;       /* песчаный слой */
+  --soil-dark: #D2CFCB;         /* глинистый слой */
+  
+  /* Минеральные акценты */
+  --mineral-turquoise: #0097A7;  /* бирюза (основной акцент) */
+  --mineral-malachite: #00695C;  /* малахит (темный акцент) */
+  --mineral-azure: #0288D1;      /* лазурит (hover) */
+  
+  /* Нейтральные */
+  --text-primary: #2A2A2A;       /* основной текст */
+  --text-secondary: #6B6560;     /* подсказки */
+  --divider: #D2CFCB;            /* делители */
+  
+  /* Слои состояния */
+  --layer-completed: #00695C;    /* завершенный слой */
+  --layer-active: #0097A7;       /* активный слой */
+  --layer-pending: #B0ADA8;      /* ожидающий слой */
+}
+
+/* ============================================
+   БАЗОВЫЕ СТИЛИ
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, var(--soil-light) 0%, var(--soil-medium) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Геологические слои на фоне */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 80px,
+      rgba(210, 207, 203, 0.15) 80px,
+      rgba(210, 207, 203, 0.15) 81px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   ШАПКА (ФИКСИРОВАННАЯ)
+   ============================================ */
+
+.geo-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: #FFFFFF;
+  border-bottom: 3px solid var(--mineral-turquoise);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.geo-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.geo-logo-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--mineral-turquoise), var(--mineral-malachite));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.geo-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.geo-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ============================================
+   ПРОГРЕСС-БАР (СТРАТИГРАФИЧЕСКИЙ)
+   ============================================ */
+
+.geo-progress-container {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  height: 88px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--divider);
+  z-index: 90;
+  padding: 16px 32px;
+}
+
+.geo-progress-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Горизонтальная линия (стратиграфический профиль) */
+.geo-progress-line {
+  position: absolute;
+  top: 28px;
+  left: 60px;
+  right: 60px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--layer-completed) 0%,
+    var(--layer-active) var(--progress, 50%),
+    var(--layer-pending) var(--progress, 50%)
+  );
+  border-radius: 2px;
+}
+
+/* Маркеры шагов (геологические отложения) */
+.geo-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.geo-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.geo-step-marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  border: 2px solid;
+  background: #FFFFFF;
+  position: relative;
+}
+
+/* Состояния шагов */
+.geo-step.completed .geo-step-marker {
+  background: var(--layer-completed);
+  border-color: var(--layer-completed);
+  color: white;
+}
+
+.geo-step.active .geo-step-marker {
+  background: var(--mineral-turquoise);
+  border-color: var(--mineral-turquoise);
+  color: white;
+  box-shadow: 0 0 0 4px rgba(0, 151, 167, 0.15);
+}
+
+.geo-step.pending .geo-step-marker {
+  background: #FFFFFF;
+  border-color: var(--layer-pending);
+  color: var(--layer-pending);
+}
+
+.geo-step-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.geo-step.active .geo-step-label {
+  color: var(--mineral-turquoise);
+  font-weight: 600;
+}
+
+.geo-step.completed .geo-step-label {
+  color: var(--layer-completed);
+}
+
+/* ============================================
+   ОСНОВНОЙ КОНТЕНТ
+   ============================================ */
+
+.geo-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 184px 32px 120px; /* top учитывает header + progress */
+}
+
+/* Карточки (геологические слои данных) */
+.geo-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(210, 207, 203, 0.2);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.geo-card:hover {
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 151, 167, 0.2);
+}
+
+/* Заголовок карточки */
+.geo-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--soil-medium);
+  position: relative;
+}
+
+/* Стратиграфическая метка */
+.geo-card-header::before {
+  content: '';
+  position: absolute;
+  left: -32px;
+  top: 0;
+  bottom: -16px;
+  width: 4px;
+  background: linear-gradient(180deg, var(--mineral-turquoise), transparent);
+  border-radius: 2px;
+}
+
+.geo-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(0, 151, 167, 0.1), rgba(0, 105, 92, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mineral-turquoise);
+}
+
+.geo-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* ============================================
+   ФОРМЫ И ПОЛЯ
+   ============================================ */
+
+.geo-form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.geo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.geo-field.span-6 { grid-column: span 6; }
+.geo-field.span-12 { grid-column: span 12; }
+
+.geo-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.geo-label-required::after {
+  content: '*';
+  color: var(--mineral-turquoise);
+}
+
+.geo-input,
+.geo-select {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--divider);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.geo-input:focus,
+.geo-select:focus {
+  outline: none;
+  border-color: var(--mineral-turquoise);
+  box-shadow: 0 0 0 3px rgba(0, 151, 167, 0.1);
+}
+
+.geo-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   КАРТОЧКИ ВЫБОРА КАТЕГОРИЙ
+   ============================================ */
+
+.geo-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.geo-category-card {
+  background: #FFFFFF;
+  border: 2px solid var(--divider);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+.geo-category-card:hover {
+  border-color: var(--mineral-turquoise);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 151, 167, 0.15);
+}
+
+.geo-category-card.selected {
+  background: linear-gradient(135deg, rgba(0, 151, 167, 0.05), rgba(0, 105, 92, 0.05));
+  border-color: var(--mineral-turquoise);
+  border-width: 3px;
+}
+
+.geo-category-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 151, 167, 0.1), rgba(0, 105, 92, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.geo-category-card.selected .geo-category-icon {
+  background: linear-gradient(135deg, var(--mineral-turquoise), var(--mineral-malachite));
+  color: white;
+}
+
+.geo-category-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.geo-category-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ============================================
+   НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ
+   ============================================ */
+
+.geo-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--divider);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.geo-footer-content {
+  max-width: 1100px;
+  width: 100%;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.geo-btn {
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.geo-btn-back {
+  background: var(--soil-medium);
+  color: var(--text-primary);
+}
+
+.geo-btn-back:hover {
+  background: var(--soil-dark);
+}
+
+.geo-btn-back:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.geo-btn-next {
+  background: linear-gradient(135deg, var(--mineral-turquoise), var(--mineral-malachite));
+  color: white;
+}
+
+.geo-btn-next:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 151, 167, 0.3);
+}
+
+.geo-btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.geo-btn-complete {
+  background: linear-gradient(135deg, var(--mineral-malachite), #004D40);
+  color: white;
+  padding: 0 36px;
+}
+
+.geo-btn-complete:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 105, 92, 0.4);
+}
+
+/* ============================================
+   ПОДСКАЗКИ И ХИНТЫ
+   ============================================ */
+
+.geo-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--soil-medium);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.geo-hint:hover {
+  background: var(--mineral-turquoise);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ============================================
+   АНИМАЦИИ
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.geo-card {
+  animation: fadeIn 0.4s ease;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 768px) {
+  .geo-header {
+    padding: 0 16px;
+  }
+  
+  .geo-progress-container {
+    padding: 12px 16px;
+    height: auto;
+  }
+  
+  .geo-steps {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  
+  .geo-main {
+    padding: 160px 16px 100px;
+  }
+  
+  .geo-category-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .geo-form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .geo-field.span-6 {
+    grid-column: span 1;
+  }
+}
+
+/* ============================================
+   УТИЛИТЫ
+   ============================================ */
+
+.text-geo-primary { color: var(--text-primary); }
+.text-geo-secondary { color: var(--text-secondary); }
+.text-geo-accent { color: var(--mineral-turquoise); }
+
+.bg-geo-light { background: var(--soil-light); }
+.bg-geo-medium { background: var(--soil-medium); }
+.bg-geo-accent { background: var(--mineral-turquoise); }
+
+.border-geo { border-color: var(--divider); }
+.border-geo-accent { border-color: var(--mineral-turquoise); }

@@ -1,0 +1,84 @@
+smartestimate/
+├── 🚀 APP (Next.js 13+ App Router)
+│   ├── /calculation
+│   │   ├── /inspection/industrial/page.tsx
+│   │   ├── /inspection/page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── /geological/page.tsx
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── 🧩 COMPONENTS
+│   ├── /calculation
+│   │   ├── CalculationSummary.tsx
+│   │   ├── EstimateTable.tsx
+│   │   ├── IndustrialBuildingForm.tsx
+│   │   └── PDFExportButton.tsx
+│   ├── /geological
+│   │   ├── GeologicalWizard.tsx
+│   │   ├── /results/WorksTable.tsx
+│   │   └── /steps
+│   │       ├── AdditionalStep.tsx
+│   │       ├── CategoriesStep.tsx
+│   │       ├── FoundationStep.tsx
+│   │       ├── GeologyStep.tsx
+│   │       ├── ObjectTypeStep.tsx
+│   │       ├── ProjectInfoStep.tsx
+│   │       └── ReviewStep.tsx
+│   └── /ui
+│       ├── alert.tsx
+│       └── table.tsx
+│
+├── ⚙️ MODULES (Business Logic)
+│   ├── /calculations
+│   │   ├── /base
+│   │   │   ├── utils.ts
+│   │   │   └── validators.ts
+│   │   ├── /geodetic
+│   │   │   ├── deformation-monitoring.ts
+│   │   │   ├── layout-works.ts
+│   │   │   ├── topographic-survey.ts
+│   │   │   └── index.ts
+│   │   ├── /geological
+│   │   │   ├── drilling.ts
+│   │   │   ├── field-testing.ts
+│   │   │   ├── laboratory.ts
+│   │   │   └── index.ts
+│   │   ├── /hydrographic
+│   │   │   ├── depth-sounding.ts
+│   │   │   ├── hydrological-observations.ts
+│   │   │   ├── meteorological-observations.ts
+│   │   │   ├── water-sampling.ts
+│   │   │   └── index.ts
+│   │   └── /inspection
+│   │       ├── industrial.ts
+│   │       └── index.ts
+│   │
+│   └── /norms/2025
+│       ├── registry.json
+│       ├── /section1-geodetic
+│       │   ├── categories.ts
+│       │   ├── coefficients.ts
+│       │   └── /tables (table-1601-0101.ts ... table-1601-0301.ts)
+│       ├── /section2-geological
+│       │   ├── categories.ts
+│       │   ├── coefficients.ts
+│       │   └── /tables (table-1602-0201.ts ... table-1602-0701.ts)
+│       ├── /section3-hydrographic
+│       └── /section4-inspection
+│
+├── 🎣 HOOKS
+│   ├── useGeologicalEngine.ts
+│   └── useGeologicalIntegration.ts
+│
+├── 🔧 LIB & CONFIG
+│   ├── prisma.ts
+│   ├── utils.ts
+│   ├── next.config.ts
+│   ├── tailwind.config.js
+│   └── tsconfig.json
+│
+└── 🧪 TESTS
+    ├── test-calculation.ts
+    └── test-norms.ts
